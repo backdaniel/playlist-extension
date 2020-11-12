@@ -11,6 +11,12 @@
 		},
 		"default_title": "Playlist",
 		"default_popup": "popup/playlist.html"
-	}
+	},
+
+	"options_ui": {
+		"page": "options.html"
+	},
+
+	"permissions": ["storage"]
 
 }
