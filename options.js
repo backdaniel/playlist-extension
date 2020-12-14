@@ -1,6 +1,7 @@
 var channels = ['foobar', 'foo', 'bar', 'baz', 'qux', 'quux'];
 var playlists = ['foobar', 'foo', 'bar', 'baz', 'qux', 'quux'];
 
+
 for (var channel of channels) {
 	document.getElementById("div").innerHTML += `
 	<tr><td><label id="${channel}" for="${channel}Playlist">${channel}</label></td>
