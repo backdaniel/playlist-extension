@@ -1,19 +1,28 @@
-/*
-const executing = chrome.tabs.executeScript({
-  code: 'var channels = []; var links = document.querySelectorAll(\'.channel-link\'); for(var i = 0; i < links.length; i++){channels.push(links[i].href)} chrome.storage.local.set({"channels": "hello world"}, function() { console.log(\'set array\'); }) chrome.storage.local.get(["channels"], function(result) { console.log("Value currently is " + result.key); });'
-});
-*/
+function generateLink() {
+	document.getElementById("gerar").href = 'https://backdaniel.com/playlist' +
+		'?y=' + encodeURIComponent(localStorage.getItem('youtube')) +
+		'&v=' + encodeURIComponent(localStorage.getItem('vimeo')) +
+		'&l=' + encodeURIComponent(localStorage.getItem('lbry'));
+	document.getElementById("itens").innerHTML =
+		youtube.length +
+		vimeo.length +
+		lbry.length;
+}
 
-document.getElementById("settings").addEventListener("click", function() {
-	chrome.runtime.openOptionsPage();
+document.getElementById("limpar").addEventListener("click", function() {
+	localStorage.removeItem('youtube');
+	localStorage.removeItem('vimeo');
+	localStorage.removeItem('lbry');
+	youtube = []
+	vimeo = []
+	lbry = []
+	generateLink();
 });
 
-document.getElementById("syncSub").addEventListener("click", function() {
+document.getElementById("syncYoutube").addEventListener("click", function() {
 	console.log('getting page content');
-
 	function modifyDOM() {
 		console.log('inside page');
-		//return document.body.innerHTML;
 		var channels = [];
 		var links = document.querySelectorAll('.channel-link');
 		for(var i = 0; i < links.length; i++) {
@@ -21,31 +30,25 @@ document.getElementById("syncSub").addEventListener("click", function() {
 		}
 		return channels;
 	}
-
 	chrome.tabs.executeScript({
 		code: '(' + modifyDOM + ')();'
 	}, (results) => {
 		console.log('popup script');
-		console.log(results[0]);
+		youtube = [...new Set(results[0])];
+		localStorage.setItem('youtube', JSON.stringify(youtube));
+		generateLink();
 	});
-
 });
 
-document.getElementById("syncPlay").addEventListener("click", function() {
-	function modifyDOM() {
-		var playlists = [];
-		var links = document.querySelectorAll("a[href*='/playlist?list='].ytcp-playlist-row");
-		for(var i = 0; i < links.length; i++) {
-			if (!playlists.includes(links[i].href)) {
-				playlists.push(links[i].href)
-			}
-		}
-		return playlists;
-	}
-	chrome.tabs.executeScript({
-		code: '(' + modifyDOM + ')();'
-	}, (results) => {
-		console.log(results[0]);
-	});
-
+document.getElementById("syncVimeo").addEventListener("click", function() {
+	console.log('not yet implemented');
 });
+
+document.getElementById("syncLbry").addEventListener("click", function() {
+	console.log('not yet implemented');
+});
+
+var youtube = JSON.parse(localStorage.getItem('youtube')) || [];
+var vimeo = JSON.parse(localStorage.getItem('vimeo')) || [];
+var lbry = JSON.parse(localStorage.getItem('lbry')) || [];
+generateLink();
