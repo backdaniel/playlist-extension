@@ -4,6 +4,4 @@ This is similar to a base structure for a browser extension so just importing it
 
 As for the `pages/` directory it contains a webpage that needs be hosted on the web, for testing purposes it is already hosted at https://backdaniel.com/playlist
 
-Tutorial video: https://youtu.be/N-Wlygcc1FM
-
 This repo is probably going to be deleted in the future, if you want to keep it fork it before it's too late.
